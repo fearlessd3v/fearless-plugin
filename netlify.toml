@@ -1,12 +1,12 @@
 [build]
   publish = "."
-  command = "pip install mango-py"  # Installs Mango runtime
+  command = "pip install -r requirements.txt && pip install netlify-py"  # Installs deps + Python runtime
 
 [[redirects]]
   from = "/*"
-  to = "/.netlify/functions/main/:splat"  # Routes all API/HTML to your FastAPI func
+  to = "/.netlify/functions/main/:splat"  # Routes to your Python function
   status = 200
   force = true
 
 [functions]
-  node_bundler = "none"  # Disable JS bundler for Python
+  node_bundler = "none"  # Skip JS bundler for Python
