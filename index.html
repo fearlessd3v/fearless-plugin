@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Swear Pack Maker</title>
+    <style>
+        body {background:#0f0f1a;color:#fff;font-family:Arial;text-align:center;padding:40px;}
+        textarea, input, button {width:90%;max-width:600px;padding:15px;margin:10px;border-radius:10px;border:none;font-size:16px;}
+        button {background:#ff3333;color:#fff;font-size:20px;cursor:pointer;}
+        h1 {color:#ff3333;}
+        #result {background:#222;padding:20px;margin:20px;border-radius:10px;display:none;}
+    </style>
+</head>
+<body>
+    <h1>Create A Plugin Plugin</h1>
+    <form id="form">
+        <input id="name" name="n" placeholder="Pack Name (ex: Ultimate Swears)" required><br>
+        <textarea id="sentences" name="s" rows="12" placeholder="One sentence per line&#10;fuck you&#10;yo mama gay&#10;ez clap..." required></textarea><br>
+        <button type="submit">Generate Plugin ID</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const n = document.getElementById('name').value;
+            const s = document.getElementById('sentences').value;
+            const result = document.getElementById('result');
+            try {
+                const res = await fetch('/.netlify/functions/main/c', {  // POST to your create route
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: `n=\( {encodeURIComponent(n)}&s= \){encodeURIComponent(s)}`
+                });
+                const data = await res.json();
+                result.innerHTML = `
+                    <h2>${data.name}</h2>
+                    <code style="font-size:22px;background:#111;padding:15px;">${data.id}</code>
+                    <p>Copy this ID and paste in your script!</p>
+                    <a href="/" style="color:lime;">Create Another</a>
+                `;
+                result.style.display = 'block';
+            } catch (err) {
+                result.innerHTML = '<p style="color:red;">Error: ' + err + '</p>';
+                result.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
