@@ -1,12 +1,12 @@
 [build]
   publish = "."
-  command = "pip install -r requirements.txt && pip install netlify-py"  # Installs deps + Python runtime
+  command = "pip install -r requirements.txt && pip install netlify-py"
 
 [[redirects]]
   from = "/*"
-  to = "/.netlify/functions/main/:splat"  # Routes to your Python function
+  to = "/.netlify/functions/main/:splat"
   status = 200
   force = true
 
 [functions]
-  node_bundler = "none"  # Skip JS bundler for Python
+  node_bundler = "none"
