@@ -25,3 +25,8 @@ async def api(i:str):
     row = cur.fetchone()
     if row: return {"name":row[0], "sentences":[x for x in row[1].split("\n") if x.strip()]}
     return {"error":"no"}
+
+
+from netlify_py import handler
+
+netlify_handler = handler(app) 
